@@ -1,0 +1,20 @@
+sequenceDiagram
+    participant browser
+    participant server
+
+    Note right of browser: The user writes a note in the text field and clicks "Save"
+
+    browser->>server: POST https://studies.cs.helsinki.fi/exampleapp/new_note_spa
+    activate server
+    Note right of server: The server processes the new note and saves it to the database
+    server-->>browser: HTTP 201 Created (success response)
+    deactivate server
+
+    Note right of browser: The browser updates the notes list dynamically without reloading the page
+
+    browser->>server: GET https://studies.cs.helsinki.fi/exampleapp/data.json
+    activate server
+    server-->>browser: Updated notes JSON (including the new note)
+    deactivate server
+
+    Note right of browser: The browser renders the updated notes dynamically
