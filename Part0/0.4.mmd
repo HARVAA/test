@@ -2,11 +2,6 @@ sequenceDiagram
     participant browser
     participant server
 
-    Note right of browser: The user writes a note in the text field and clicks "Save"
-
-    browser->>server: POST https://studies.cs.helsinki.fi/exampleapp/new_note
-    activate server
-    Note right of server: The server processes the new note and saves it to the database
     server-->>browser: HTTP 302 Redirect to /notes
     deactivate server
 
