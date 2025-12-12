@@ -1,14 +1,16 @@
 import { useState } from 'react'
 
 const komenda = () => {
-    return console.log("Kocham Pana chome");
+  console.log("App component rendered");
 };
 
 const Statistics = ({ good, neutral, bad }) => {
   const total = good + neutral + bad
   const average = total === 0 ? 0 : (good - bad) / total
   const positivePercentage = total === 0 ? 0 : (good / total) * 100
-
+  if (total === 0) {
+    return <p>No feedback given</p>
+  }
   return (
     <div>
       <h2>Statistics</h2>
@@ -36,7 +38,7 @@ const App = () => {
       
       <Statistics good={good} neutral={neutral} bad={bad} />
     </div>
-  )
-}
+  );
+};
 
 export default App
