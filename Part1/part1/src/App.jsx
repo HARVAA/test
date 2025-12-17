@@ -4,6 +4,14 @@ const komenda = () => {
   console.log("App component rendered");
 };
 
+const Button = ({ onClick, text }) => {
+  return <button onClick={onClick}>{text}</button>
+}
+
+const StatisticLine = ({ text, value }) => {
+  return <p>{text}: {value}</p>
+}
+
 const Statistics = ({ good, neutral, bad }) => {
   const total = good + neutral + bad
   const average = total === 0 ? 0 : (good - bad) / total
@@ -14,12 +22,12 @@ const Statistics = ({ good, neutral, bad }) => {
   return (
     <div>
       <h2>Statistics</h2>
-      <p>Good: {good}</p>
-      <p>Neutral: {neutral}</p>
-      <p>Bad: {bad}</p>
-      <p>Total feedback: {total}</p>
-      <p>Average score: {average.toFixed(2)}</p>
-      <p>Positive feedback: {positivePercentage.toFixed(2)}%</p>
+      <StatisticLine text="Good" value={good} />
+      <StatisticLine text="Neutral" value={neutral} />
+      <StatisticLine text="Bad" value={bad} />
+      <StatisticLine text="Total feedback" value={total} />
+      <StatisticLine text="Average score" value={average.toFixed(2)} />
+      <StatisticLine text="Positive feedback" value={`${positivePercentage.toFixed(2)}%`} />
     </div>
   )
 }
@@ -32,10 +40,10 @@ const App = () => {
 
   return (
     <div>
-      <button onClick={() => setGood(good + 1)}>good</button>
-      <button onClick={() => setNeutral(neutral + 1)}>neutral</button>
-      <button onClick={() => setBad(bad + 1)}>bad</button>
-      
+      <Button onClick={() => setGood(good + 1)} text="good" />
+      <Button onClick={() => setNeutral(neutral + 1)} text="neutral" />
+      <Button onClick={() => setBad(bad + 1)} text="bad" />
+
       <Statistics good={good} neutral={neutral} bad={bad} />
     </div>
   );
