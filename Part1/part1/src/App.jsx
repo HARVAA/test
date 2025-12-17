@@ -89,6 +89,23 @@ const App = () => {
       <Button onClick={() => setBad(bad + 1)} text="bad" />
 
       <Statistics good={good} neutral={neutral} bad={bad} />
+
+      <h2>Anecdote with most votes</h2>
+      {
+        (() => {
+          const maxVotes = Math.max(...votes)
+          const maxIndex = votes.indexOf(maxVotes)
+          if (maxVotes === 0) {
+            return <p>No votes yet</p>
+          }
+          return (
+            <div>
+              <p>{anecdotes[maxIndex]}</p>
+              <p>has {votes[maxIndex]} votes</p>
+            </div>
+          )
+        })()
+      }
     </div>
   );
 }
