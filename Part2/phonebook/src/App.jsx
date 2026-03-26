@@ -36,6 +36,21 @@ const App = () => {
     })
   }
 
+  const handleDelete = (id, name) => {
+    const confirmDelete = window.confirm(`Delete ${name}?`)
+    
+    if (!confirmDelete) return
+  
+    Service.remove(id)
+      .then(() => {
+        setPersons(prev => prev.filter(person => person.id !== id))
+      })
+      .catch(error => {
+        console.error('Error deleting person:', error)
+      })
+  }
+
+
   const handleNameChange = (event) => setNewName(event.target.value)
   const handleNumberChange = (event) => setNewNumber(event.target.value)
   const handleFilterChange = (event) => setFilter(event.target.value)
@@ -57,7 +72,7 @@ const App = () => {
         handleNumberChange={handleNumberChange}
       />
       <h3>Numbers</h3>
-      <Persons personsToShow={personsToShow} />
+      <Persons personsToShow={personsToShow} handleDelete={handleDelete} />
     </div>
   )
 }
