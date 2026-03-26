@@ -24,16 +24,46 @@ const App = () => {
 
   const handleSubmit = (event) => {
     event.preventDefault()
-    if (persons.some(person => person.name === newName)) {
-      alert(`${newName} is already added to phonebook`)
+  
+    const existingPerson = persons.find(
+      p => p.name.toLowerCase() === newName.toLowerCase()
+    )
+  
+    const newPerson = { name: newName, number: newNumber }
+  
+    if (existingPerson) {
+      const confirmUpdate = window.confirm(
+        `${existingPerson.name} is already added to phonebook, replace the old number with a new one?`
+      )
+  
+      if (!confirmUpdate) return
+  
+      const updatedPerson = { ...existingPerson, number: newNumber }
+  
+      Service.update(existingPerson.id, updatedPerson)
+        .then(returnedPerson => {
+          setPersons(prev =>
+            prev.map(p => p.id !== existingPerson.id ? p : returnedPerson)
+          )
+          setNewName('')
+          setNewNumber('')
+        })
+        .catch(error => {
+          console.error('Error updating person:', error)
+        })
+  
       return
     }
-    const newPerson = { name: newName, number: newNumber }
-    Service.create(newPerson).then(returnedPerson => {
-      setPersons(persons.concat(returnedPerson))
-      setNewName('')
-      setNewNumber('')
-    })
+  
+    Service.create(newPerson)
+      .then(returnedPerson => {
+        setPersons(prev => prev.concat(returnedPerson))
+        setNewName('')
+        setNewNumber('')
+      })
+      .catch(error => {
+        console.error('Error creating person:', error)
+      })
   }
 
   const handleDelete = (id, name) => {
